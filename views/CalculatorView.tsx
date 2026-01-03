@@ -38,15 +38,7 @@ const FeatureCard: React.FC<{
 const MoreView: React.FC<MoreViewProps> = ({ onSelectFeature }) => {
     const { t } = useLanguage();
 
-    // Reordered as per user request for simplified interaction.
     const features = [
-        {
-            type: FeatureType.Settings,
-            icon: 'fas fa-user-cog',
-            title: t('about'),
-            description: t('aboutDescription'),
-            color: 'border-gray-500'
-        },
         {
             type: FeatureType.ActivityLog,
             icon: 'fas fa-book-open',
@@ -127,7 +119,25 @@ const MoreView: React.FC<MoreViewProps> = ({ onSelectFeature }) => {
     ];
 
     return (
-        <ViewContainer title={t('more')} icon="fas fa-layer-group">
+        <ViewContainer 
+            title={t('more')} 
+            icon="fas fa-layer-group"
+            leftAction={
+                <button
+                    onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        onSelectFeature(FeatureType.Settings, {
+                            x: rect.left + rect.width / 2,
+                            y: rect.top + rect.height / 2
+                        });
+                    }}
+                    className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white transition-all shadow-lg active:scale-95"
+                    title={t('settings')}
+                >
+                    <i className="fas fa-cog fa-lg"></i>
+                </button>
+            }
+        >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {features.map(feature => (
                     <FeatureCard
