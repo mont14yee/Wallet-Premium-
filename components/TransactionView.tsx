@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Transaction } from '../types';
 import ViewContainer from './ViewContainer';
@@ -39,18 +38,20 @@ const TransactionItem: React.FC<{
 }> = ({ item, icon, color, onDelete }) => {
     const { currencySettings } = useLanguage();
     return (
-        <div className="flex justify-between items-center p-3 rounded-lg transition-all duration-200 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <div className="flex justify-between items-center p-4 rounded-2xl transition-all duration-300 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md hover:border-gray-200 dark:hover:border-gray-600 group">
             <div className="flex items-center gap-4 flex-1 min-w-0">
-                <i className={`${icon} fa-2x ${color}`}></i>
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-gray-900/50 ${color}`}>
+                    <i className={`${icon} text-xl`}></i>
+                </div>
                 <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-gray-800 dark:text-gray-200 truncate">{item.name}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{item.category} • {item.date}</p>
+                    <h3 className="font-bold text-gray-800 dark:text-gray-100 truncate">{item.name}</h3>
+                    <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tighter">{item.category} • {item.date}</p>
                 </div>
             </div>
             <div className="flex items-center gap-4 ml-2">
-                <span className={`font-bold ${color} whitespace-nowrap`}>{formatCurrency(item.amount, currencySettings)}</span>
-                <button onClick={() => onDelete(item.id)} className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors">
-                    <i className="fas fa-trash"></i>
+                <span className={`font-black text-lg ${color} whitespace-nowrap`}>{formatCurrency(item.amount, currencySettings)}</span>
+                <button onClick={() => onDelete(item.id)} className="w-8 h-8 rounded-full flex items-center justify-center text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all opacity-0 group-hover:opacity-100">
+                    <i className="fas fa-trash-alt text-sm"></i>
                 </button>
             </div>
         </div>
@@ -74,7 +75,7 @@ const TransactionForm: React.FC<{
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const [category, setCategory] = useState(initialData?.category || categories[0] || '');
     
-    const inputClasses = "mt-1 block w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent dark:text-white dark:placeholder-gray-400";
+    const inputClasses = "mt-1 block w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-900/50 dark:text-white dark:placeholder-gray-600 focus:ring-2 focus:ring-slate-500 transition-all outline-none font-medium";
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -87,24 +88,31 @@ const TransactionForm: React.FC<{
     };
 
     return (
-        <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg mb-6 shadow-sm">
-            <h3 className="text-lg font-bold text-slate-700 dark:text-slate-400 mb-4 flex items-center gap-2"><i className="fas fa-plus-circle"></i> {title}</h3>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl animate-fadeIn">
+            <h3 className="text-xl font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3 uppercase tracking-wider">
+                <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-gray-700 flex items-center justify-center text-slate-600 dark:text-slate-300">
+                    <i className="fas fa-plus"></i>
+                </div>
+                {title}
+            </h3>
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{nameLabel}</label>
+                        <label className="block text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">{nameLabel}</label>
                         <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder={namePlaceholder} className={inputClasses} required />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('amount')} ({currencySettings.symbol})</label>
-                        <input type="number" value={amount} onChange={e => setAmount(e.target.value)} placeholder={t('amountPlaceholder')} className={inputClasses} required />
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">{t('amount')} ({currencySettings.symbol})</label>
+                            <input type="number" value={amount} onChange={e => setAmount(e.target.value)} placeholder="0.00" className={inputClasses} required />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">{t('date')}</label>
+                            <input type="date" value={date} onChange={e => setDate(e.target.value)} className={inputClasses} required />
+                        </div>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('date')}</label>
-                        <input type="date" value={date} onChange={e => setDate(e.target.value)} className={inputClasses} required />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('category')}</label>
+                        <label className="block text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">{t('category')}</label>
                         <input 
                             list="category-options"
                             value={category} 
@@ -118,9 +126,9 @@ const TransactionForm: React.FC<{
                         </datalist>
                     </div>
                 </div>
-                <div className="flex justify-end gap-2 mt-4">
-                    <button type="button" onClick={onCancel} className="bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-full hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors">{t('cancel')}</button>
-                    <button type="submit" className="bg-slate-600 text-white font-bold py-2 px-4 rounded-full hover:bg-slate-700 transition-colors">{t('save')}</button>
+                <div className="flex justify-end gap-3 mt-8">
+                    <button type="button" onClick={onCancel} className="flex-1 py-3 px-6 rounded-2xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-black uppercase tracking-widest text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">{t('cancel')}</button>
+                    <button type="submit" className="flex-1 py-3 px-6 rounded-2xl bg-slate-600 text-white font-black uppercase tracking-widest text-xs hover:bg-slate-700 shadow-lg shadow-slate-200 dark:shadow-none transition-all">{t('save')}</button>
                 </div>
             </form>
         </div>
@@ -129,7 +137,7 @@ const TransactionForm: React.FC<{
 
 
 const TransactionView: React.FC<TransactionViewProps> = (props) => {
-    const { title, icon, items, total, onAddItem, onDeleteItem, categories, itemIcon, itemColor, formTitle, nameLabel, namePlaceholder, totalLabel, amountColor, categoryFilter, onClearFilter, onAddCategory, allItems, theme, chartTitle, chartDataKey, chartColor } = props;
+    const { title, items, total, onAddItem, onDeleteItem, categories, itemIcon, itemColor, formTitle, nameLabel, namePlaceholder, totalLabel, amountColor, categoryFilter, onClearFilter, onAddCategory, allItems, theme, chartTitle, chartDataKey, chartColor } = props;
     const { t, currencySettings, language } = useLanguage();
     const [showForm, setShowForm] = useState(false);
     const [initialFormData, setInitialFormData] = useState<{ name: string; category: string } | null>(null);
@@ -137,7 +145,7 @@ const TransactionView: React.FC<TransactionViewProps> = (props) => {
 
     const otherCategoryNames = ['Other', 'ሌላ'];
 
-    const comparisonText = useMemo(() => {
+    const comparisonData = useMemo(() => {
         const now = new Date();
         const currentYear = now.getFullYear();
         const currentMonth = now.getMonth();
@@ -160,24 +168,26 @@ const TransactionView: React.FC<TransactionViewProps> = (props) => {
             })
             .reduce((sum, item) => sum + item.amount, 0);
 
+        let text = '';
+        let trend: 'up' | 'down' | 'none' = 'none';
+
         if (previousMonthTotal === 0) {
-            return currentMonthTotal > 0 ? t('comparisonNew') : t('comparisonNoPreviousData');
-        }
-
-        const percentageChange = ((currentMonthTotal - previousMonthTotal) / previousMonthTotal) * 100;
-        
-        if (Math.abs(percentageChange) < 0.1) {
-            return t('comparisonNoChange');
-        }
-
-        if (percentageChange > 0) {
-            return t('comparisonIncrease', percentageChange.toFixed(1));
+            text = currentMonthTotal > 0 ? t('comparisonNew') : t('comparisonNoPreviousData');
         } else {
-            return t('comparisonDecrease', percentageChange.toFixed(1));
+            const percentageChange = ((currentMonthTotal - previousMonthTotal) / previousMonthTotal) * 100;
+            if (Math.abs(percentageChange) < 0.1) {
+                text = t('comparisonNoChange');
+            } else if (percentageChange > 0) {
+                text = t('comparisonIncrease', percentageChange.toFixed(1));
+                trend = 'up';
+            } else {
+                text = t('comparisonDecrease', percentageChange.toFixed(1));
+                trend = 'down';
+            }
         }
+        return { text, trend };
     }, [allItems, t]);
 
-    // Display all items, sorted by date descending
     const displayedItems = useMemo(() => {
         return [...items].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     }, [items]);
@@ -226,85 +236,132 @@ const TransactionView: React.FC<TransactionViewProps> = (props) => {
         setShowForm(true);
     };
 
-    const summaryBgColor = amountColor === 'text-slate-600' 
-        ? 'from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30' 
-        : 'from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/30';
-
     return (
-        <ViewContainer
-            title={title}
-            icon={icon}
-        >
-            {categoryFilter && (
-                <div className="flex items-center justify-between bg-yellow-100 dark:bg-yellow-900/50 p-3 rounded-lg mb-6 shadow-sm border border-yellow-300 dark:border-yellow-700">
-                    <p className="text-sm font-semibold text-yellow-800 dark:text-yellow-200">
-                        {t('showingTransactionsFor')}: <span className="font-bold text-base">{categoryFilter}</span>
-                    </p>
-                    <button
-                        onClick={onClearFilter}
-                        className="text-sm font-bold bg-yellow-200 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100 px-3 py-1 rounded-full hover:bg-yellow-300 dark:hover:bg-yellow-600 transition-colors"
-                    >
-                        {t('clearFilter')}
-                    </button>
+        <ViewContainer title="" icon="">
+            {/* Header / Summary Section */}
+            <div className="relative mb-10">
+                <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden relative group">
+                    {/* Decorative Background Elements */}
+                    <div className={`absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-10 blur-3xl transition-all group-hover:scale-150 duration-700 ${amountColor.replace('text-', 'bg-')}`}></div>
+                    
+                    <div className="relative flex flex-col items-center text-center">
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-2">
+                            {totalLabel} • {t('allTime')}
+                        </span>
+                        
+                        <div className={`text-5xl sm:text-6xl font-black ${amountColor} dark:text-white tracking-tighter mb-4`}>
+                            {formatCurrency(total, currencySettings)}
+                        </div>
+                        
+                        <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm border
+                            ${comparisonData.trend === 'up' ? 'bg-green-50 text-green-700 border-green-100 dark:bg-green-900/20 dark:text-green-300 dark:border-green-800' : 
+                              comparisonData.trend === 'down' ? 'bg-red-50 text-red-700 border-red-100 dark:bg-red-900/20 dark:text-red-300 dark:border-red-800' : 
+                              'bg-gray-50 text-gray-600 border-gray-100 dark:bg-gray-700/50 dark:text-gray-400 dark:border-gray-600'}`}>
+                            <i className={`fas ${comparisonData.trend === 'up' ? 'fa-arrow-trend-up' : comparisonData.trend === 'down' ? 'fa-arrow-trend-down' : 'fa-minus'}`}></i>
+                            {comparisonData.text}
+                        </div>
+                    </div>
                 </div>
-            )}
-            
-            <div className={`p-5 mb-6 rounded-2xl bg-gradient-to-br shadow-inner text-center ${summaryBgColor}`}>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300">{totalLabel} ({t('allTime')})</h3>
-                <div className={`text-4xl font-extrabold my-1 ${amountColor} dark:text-gray-200`}>{formatCurrency(total, currencySettings)}</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">{comparisonText}</p>
-            </div>
 
-            <div className="space-y-3">
-                {displayedItems.length > 0 ? displayedItems.map(item => (
-                     <TransactionItem 
-                        key={item.id} 
-                        item={item} 
-                        icon={itemIcon} 
-                        color={itemColor} 
-                        onDelete={onDeleteItem}
-                    />
-                )) : (
-                     <p className="text-center text-gray-500 dark:text-gray-400 py-6">{t('noItemsFound')}</p>
-                )}
-            </div>
-
-            <div className="mt-8">
-                <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-bold text-gray-700 dark:text-gray-200">{chartTitle}</h3>
-                     <button onClick={() => setIsChartVisible(!isChartVisible)} className="text-sm text-blue-600 dark:text-blue-400 font-semibold flex items-center gap-2">
-                        {isChartVisible ? 'Hide' : 'Show'} Chart <i className={`fas fa-chevron-down transition-transform ${isChartVisible ? 'rotate-180' : ''}`}></i>
-                    </button>
-                </div>
-                {isChartVisible && (
-                     <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md animate-fadeIn">
-                        <MonthlyFlowChart
-                            theme={theme}
-                            data={monthlyData}
-                            dataKey={chartDataKey}
-                            color={chartColor}
-                        />
+                {categoryFilter && (
+                    <div className="mt-4 flex items-center justify-between bg-amber-50 dark:bg-amber-900/20 p-4 rounded-2xl border border-amber-100 dark:border-amber-800 shadow-sm animate-fadeIn">
+                        <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white text-xs">
+                                <i className="fas fa-filter"></i>
+                            </div>
+                            <span className="text-sm font-bold text-amber-800 dark:text-amber-200">
+                                {t('showingTransactionsFor')}: <span className="text-amber-600 dark:text-amber-400">{categoryFilter}</span>
+                            </span>
+                        </div>
+                        <button
+                            onClick={onClearFilter}
+                            className="text-[10px] font-black uppercase tracking-widest bg-white dark:bg-gray-800 text-amber-800 dark:text-amber-300 px-4 py-2 rounded-xl shadow-sm border border-amber-200 dark:border-amber-700 hover:bg-amber-500 hover:text-white transition-all"
+                        >
+                            {t('clearFilter')}
+                        </button>
                     </div>
                 )}
             </div>
 
-            <div className="mt-8">
-                <h3 className="text-lg font-bold text-gray-700 dark:text-gray-200 mb-4">{t('quickAdd')}</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                    {categories.filter(c => !otherCategoryNames.includes(c)).map(cat => (
-                        <button key={cat} onClick={() => handleQuickAddClick(cat)} className="text-center p-3 bg-gray-100 dark:bg-gray-700/50 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                            <span className="font-semibold text-sm">{cat}</span>
-                        </button>
-                    ))}
-                    <button onClick={() => setShowForm(true)} className="text-center p-3 bg-slate-100 dark:bg-slate-700 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors col-span-2 sm:col-span-1">
-                        <span className="font-semibold text-sm text-slate-600 dark:text-slate-300 flex items-center justify-center gap-2"><i className="fas fa-plus"></i> {t('addNew')}</span>
-                    </button>
+            {/* Main Content Sections */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                {/* Transaction List */}
+                <div className="xl:col-span-2 space-y-4">
+                    <div className="flex items-center justify-between mb-2 px-2">
+                        <h3 className="text-sm font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">{t('transactionDetails')}</h3>
+                        <div className="h-px flex-1 bg-gray-100 dark:bg-gray-800 mx-4"></div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                        {displayedItems.length > 0 ? displayedItems.map(item => (
+                             <TransactionItem 
+                                key={item.id} 
+                                item={item} 
+                                icon={itemIcon} 
+                                color={itemColor} 
+                                onDelete={onDeleteItem}
+                            />
+                        )) : (
+                             <div className="text-center py-16 bg-gray-50/50 dark:bg-gray-800/30 rounded-3xl border-2 border-dashed border-gray-100 dark:border-gray-700">
+                                <i className="fas fa-ghost text-4xl text-gray-200 dark:text-gray-600 mb-3"></i>
+                                <p className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">{t('noItemsFound')}</p>
+                             </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Sidebar Actions & Stats */}
+                <div className="space-y-8">
+                    {/* Quick Add Section */}
+                    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-xl border border-gray-100 dark:border-gray-700">
+                        <h3 className="text-sm font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6 px-1 flex items-center gap-2">
+                            <i className="fas fa-bolt text-amber-400"></i> {t('quickAdd')}
+                        </h3>
+                        <div className="grid grid-cols-2 gap-3">
+                            {categories.filter(c => !otherCategoryNames.includes(c)).map(cat => (
+                                <button key={cat} onClick={() => handleQuickAddClick(cat)} className="group text-left p-4 bg-gray-50 dark:bg-gray-900/50 rounded-2xl hover:bg-slate-500 hover:text-white transition-all border border-transparent hover:border-slate-400 dark:hover:border-slate-500 shadow-sm overflow-hidden relative">
+                                    <span className="font-bold text-xs uppercase tracking-tight block truncate relative z-10">{cat}</span>
+                                    <i className="fas fa-plus absolute -right-2 -bottom-2 text-gray-200 dark:text-gray-800 text-3xl opacity-20 group-hover:text-white group-hover:scale-125 transition-transform"></i>
+                                </button>
+                            ))}
+                            <button onClick={() => setShowForm(true)} className="col-span-2 p-4 rounded-2xl bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-slate-300 font-black uppercase tracking-widest text-[10px] hover:bg-slate-200 dark:hover:bg-gray-600 transition-all flex items-center justify-center gap-2 border border-dashed border-slate-300 dark:border-gray-600">
+                                <i className="fas fa-plus-circle"></i> {t('addNew')}
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Chart Section */}
+                    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-sm font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">{chartTitle}</h3>
+                            <button onClick={() => setIsChartVisible(!isChartVisible)} className="w-8 h-8 rounded-full bg-gray-50 dark:bg-gray-700 flex items-center justify-center text-gray-400 hover:text-slate-500 transition-all">
+                                <i className={`fas fa-chevron-down transition-transform duration-300 ${isChartVisible ? 'rotate-180 text-slate-500' : ''}`}></i>
+                            </button>
+                        </div>
+                        
+                        <div className={`transition-all duration-500 ease-in-out ${isChartVisible ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                            <div className="p-2">
+                                <MonthlyFlowChart
+                                    theme={theme}
+                                    data={monthlyData}
+                                    dataKey={chartDataKey}
+                                    color={chartColor}
+                                />
+                            </div>
+                        </div>
+                        
+                        {!isChartVisible && (
+                             <button onClick={() => setIsChartVisible(true)} className="w-full py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                                View Performance Trends
+                             </button>
+                        )}
+                    </div>
                 </div>
             </div>
 
             {showForm && (
-                <div className="fixed inset-0 bg-black/50 z-[110] flex items-center justify-center p-4 animate-fadeIn" onClick={handleCancel}>
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md" onClick={e => e.stopPropagation()}>
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[110] flex items-center justify-center p-4 animate-fadeIn" onClick={handleCancel}>
+                    <div className="w-full max-w-md" onClick={e => e.stopPropagation()}>
                         <TransactionForm 
                             categories={categories}
                             onSave={handleSave}

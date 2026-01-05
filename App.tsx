@@ -628,7 +628,13 @@ const App: React.FC = () => {
     return (
         <div className="bg-black text-gray-200 min-h-screen pb-24 px-0">
             <div className="w-full">
-                <Header activeView={activeView} />
+                <Header 
+                    activeView={activeView} 
+                    onSettingsClick={(origin) => {
+                        setFeatureOrigin(origin);
+                        setActiveFeature(FeatureType.Settings);
+                    }}
+                />
                 <main>
                     {renderView()}
                 </main>
