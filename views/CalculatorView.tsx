@@ -141,6 +141,20 @@ const MoreView: React.FC<MoreViewProps> = ({ onSelectFeature }) => {
                     />
                 ))}
             </div>
+
+            {/* Application Footer */}
+            <div className="mt-16 mb-8 text-center border-t border-gray-800 pt-10">
+                <div className="space-y-1">
+                    <h4 className="text-xl font-black tracking-[0.4em] text-white uppercase">WALLET</h4>
+                    <p className="text-xs font-bold text-gray-500 tracking-wider">Version 1.0.1 (Build 2026)</p>
+                </div>
+                <div className="mt-6 flex flex-col items-center">
+                    <div className="h-1 w-8 bg-slate-600 rounded-full mb-3 opacity-30"></div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-600">
+                        Designed by <span className="text-slate-400">MENKIR</span>
+                    </p>
+                </div>
+            </div>
         </ViewContainer>
     );
 };
