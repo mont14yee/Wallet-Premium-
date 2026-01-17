@@ -153,7 +153,7 @@ export default {
     sidebarChangeAvatar: 'Change Avatar',
     sidebarAppearance: 'Appearance',
     sidebarDarkMode: 'Dark Mode',
-    sidebarLanguage: 'Language / ቋንቋ',
+    sidebarLanguage: 'Language',
     sidebarNotifications: 'Notifications',
     sidebarBillReminders: 'Upcoming Bill Reminders',
     sidebarTargetMilestones: 'Target Milestones',
