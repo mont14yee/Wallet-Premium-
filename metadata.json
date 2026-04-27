@@ -1,5 +1,6 @@
 {
   "name": "Wallet Premium ",
   "description": "A comprehensive budget management application to help you easily manage your finances, track your budget, and get insights. Improve your financial situation using modern tools and visualizations.  ",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": []
 }

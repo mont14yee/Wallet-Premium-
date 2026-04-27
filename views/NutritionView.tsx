@@ -99,11 +99,11 @@ Please format the response nicely.`;
         }
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
             const prompt = generatePromptText() + "\n\nPlease return the response in JSON format according to a specific schema including mealPlan array and totalCalories.";
 
             const response = await ai.models.generateContent({
-                model: "gemini-3-flash-preview",
+                model: "gemini-2.5-flash",
                 contents: prompt,
                 config: {
                     responseMimeType: "application/json",

@@ -276,7 +276,7 @@ ${top5Expenses}
 
 Keep the summary friendly, insightful, and brief (around 3-4 sentences). The tips should be practical and relevant to the data provided. For example, if food spending is high, suggest meal planning. If the net balance is negative, suggest reviewing specific spending categories. Do not use markdown formatting like headers or lists. Just provide a single paragraph of text.`;
 
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
             const response = await ai.models.generateContent({ model: "gemini-2.5-flash", contents: prompt });
             setAiSummary(response.text);
         } catch (error) {

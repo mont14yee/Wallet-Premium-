@@ -22,7 +22,7 @@ export default {
     category: 'Kategorie',
     cancel: 'Abbrechen',
     save: 'Speichern',
-    calculator: 'All Calculator',
+    calculator: 'Taschenrechner',
     calculatorDescription: 'Leistungsstarke Finanz-Suite.',
     nutrition: 'Ernährung',
     about: 'Über',

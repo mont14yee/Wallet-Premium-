@@ -27,9 +27,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         if (isOpen) {
             // Initialize chat when component opens
             try {
-                const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+                const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
                 chatRef.current = ai.chats.create({
-                    model: 'gemini-3-flash-preview',
+                    model: 'gemini-2.5-flash',
                     config: {
                         systemInstruction: `You are a helpful financial assistant for a budget management app called 'Wallet' (ዋሌት). Your goal is to answer user questions about personal finance, budgeting, saving, and how to use the app's features. Be friendly, clear, and concise. Do not ask for personal financial data. You can explain concepts like income, expenses, targets, and reports. Keep your answers relatively short and easy to understand.`,
                     },

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { UserProfile } from '../../types';
+import { useLanguage } from '../contexts/LanguageContext';
+import { UserProfile } from '../types';
 
 // ==================================================================
 // START: Content for Settings & About
@@ -117,20 +117,21 @@ const SettingsContent: React.FC<SettingsProps> = ({ theme, setTheme }) => {
                 isOpen={activeSection === sections.language.id}
                 onToggle={() => toggleSection(sections.language.id)}
             >
-                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {LANGUAGES.map((lang) => (
-                        <button
-                            key={lang.code}
-                            onClick={() => setLanguage(lang.code as any)}
-                            className={`flex flex-col p-4 rounded-2xl transition-all border-2 text-left
-                                ${language === lang.code 
-                                    ? 'bg-slate-800 border-transparent text-white shadow-lg' 
-                                    : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-slate-200'}`}
-                        >
-                            <span className="font-black uppercase tracking-tight">{lang.label}</span>
-                            <span className={`text-[10px] uppercase tracking-widest ${language === lang.code ? 'text-slate-400' : 'text-gray-400'}`}>{lang.region}</span>
-                        </button>
-                    ))}
+                <div className="relative group">
+                    <select
+                        value={language}
+                        onChange={(e) => setLanguage(e.target.value as any)}
+                        className="w-full appearance-none bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl py-4 pl-5 pr-12 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none font-black text-sm uppercase tracking-widest text-gray-800 dark:text-white cursor-pointer transition-all shadow-sm group-hover:border-gray-200 dark:group-hover:border-gray-600"
+                    >
+                        {LANGUAGES.map((lang) => (
+                            <option key={lang.code} value={lang.code} className="font-bold">
+                                {lang.label} • {lang.region}
+                            </option>
+                        ))}
+                    </select>
+                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-indigo-500 transition-colors">
+                        <i className="fas fa-chevron-down"></i>
+                    </div>
                 </div>
             </AccordionSection>
 
@@ -362,7 +363,7 @@ const AboutContent: React.FC<AboutContentProps> = ({ userProfile, setUserProfile
                     <div className="space-y-4">
                         <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-gray-900/50 rounded-2xl border border-gray-100 dark:border-gray-800">
                             <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{t('sidebarVersion')}</span>
-                            <span className="font-mono bg-slate-800 text-white px-3 py-1 rounded-lg text-xs font-bold shadow-lg">v1.0.0</span>
+                            <span className="font-mono bg-slate-800 text-white px-3 py-1 rounded-lg text-xs font-bold shadow-lg">v2.0.0</span>
                         </div>
                         <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-gray-900/50 rounded-2xl border border-gray-100 dark:border-gray-800">
                             <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Engine Status</span>
@@ -396,7 +397,7 @@ const AboutContent: React.FC<AboutContentProps> = ({ userProfile, setUserProfile
             </div>
 
             <p className="text-center text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.5em] pt-10 pb-20">
-                Wallet Premium • Design v1.0 • © 2026
+                Wallet Premium • Design v2.0.0 • © {new Date().getFullYear()}
             </p>
         </div>
     );

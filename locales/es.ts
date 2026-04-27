@@ -22,7 +22,7 @@ export default {
     category: 'Categoría',
     cancel: 'Cancelar',
     save: 'Guardar',
-    calculator: 'All Calculator',
+    calculator: 'Calculadoras',
     calculatorDescription: 'Conjunto potente de herramientas financieras.',
     nutrition: 'Nutrición',
     about: 'Acerca de',

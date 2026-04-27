@@ -35,7 +35,7 @@ const CurrencyConverter: React.FC = () => {
         }
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
             const prompt = `What is the current exchange rate for 1 ${fromCurrency} to ${toCurrency}? Please provide only the numerical value of the conversion rate, nothing else. For example: 0.017`;
             
             const response = await ai.models.generateContent({

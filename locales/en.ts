@@ -96,7 +96,7 @@ export default {
     instructions: 'How to prepare',
     totalDailyCalories: 'Total Daily Energy',
     toolsAndReports: 'Tools & Reports',
-    calculator: 'All Calculator',
+    calculator: 'Calculators',
     calculatorDescription: 'Powerful suite of financial and lifestyle tools.',
     currencyConverter: 'Real-Time Currency Converter',
     converter: 'Converter',
